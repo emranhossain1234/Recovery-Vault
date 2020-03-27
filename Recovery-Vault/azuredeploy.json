@@ -1,0 +1,267 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "replicationRecoveryServicesProviders_f21e4c79_173f_5ffe_808c_acb31162e863_machineName": {
+      "type": "SecureString"
+    },
+    "replicationRecoveryServicesProviders_f21e4c79_173f_5ffe_808c_acb31162e863_tenantId": {
+      "type": "SecureString"
+    },
+    "replicationRecoveryServicesProviders_f21e4c79_173f_5ffe_808c_acb31162e863_applicationId": {
+      "type": "SecureString"
+    },
+    "replicationRecoveryServicesProviders_f21e4c79_173f_5ffe_808c_acb31162e863_objectId": {
+      "type": "SecureString"
+    },
+    "replicationRecoveryServicesProviders_f21e4c79_173f_5ffe_808c_acb31162e863_audience": {
+      "type": "SecureString"
+    },
+    "replicationRecoveryServicesProviders_f21e4c79_173f_5ffe_808c_acb31162e863_aadAuthority": {
+      "type": "SecureString"
+    },
+    "replicationRecoveryServicesProviders_f21e4c79_173f_5ffe_808c_acb31162e863_tenantId_1": {
+      "type": "SecureString"
+    },
+    "replicationRecoveryServicesProviders_f21e4c79_173f_5ffe_808c_acb31162e863_applicationId_1": {
+      "type": "SecureString"
+    },
+    "replicationRecoveryServicesProviders_f21e4c79_173f_5ffe_808c_acb31162e863_objectId_1": {
+      "type": "SecureString"
+    },
+    "replicationRecoveryServicesProviders_f21e4c79_173f_5ffe_808c_acb31162e863_audience_1": {
+      "type": "SecureString"
+    },
+    "replicationRecoveryServicesProviders_f21e4c79_173f_5ffe_808c_acb31162e863_aadAuthority_1": {
+      "type": "SecureString"
+    },
+    "replicationRecoveryServicesProviders_aaeecc20_53e2_5ad4_a2a8_ebf12634384e_machineName": {
+      "type": "SecureString"
+    },
+    "replicationRecoveryServicesProviders_aaeecc20_53e2_5ad4_a2a8_ebf12634384e_tenantId": {
+      "type": "SecureString"
+    },
+    "replicationRecoveryServicesProviders_aaeecc20_53e2_5ad4_a2a8_ebf12634384e_applicationId": {
+      "type": "SecureString"
+    },
+    "replicationRecoveryServicesProviders_aaeecc20_53e2_5ad4_a2a8_ebf12634384e_objectId": {
+      "type": "SecureString"
+    },
+    "replicationRecoveryServicesProviders_aaeecc20_53e2_5ad4_a2a8_ebf12634384e_audience": {
+      "type": "SecureString"
+    },
+    "replicationRecoveryServicesProviders_aaeecc20_53e2_5ad4_a2a8_ebf12634384e_aadAuthority": {
+      "type": "SecureString"
+    },
+    "replicationRecoveryServicesProviders_aaeecc20_53e2_5ad4_a2a8_ebf12634384e_tenantId_1": {
+      "type": "SecureString"
+    },
+    "replicationRecoveryServicesProviders_aaeecc20_53e2_5ad4_a2a8_ebf12634384e_applicationId_1": {
+      "type": "SecureString"
+    },
+    "replicationRecoveryServicesProviders_aaeecc20_53e2_5ad4_a2a8_ebf12634384e_objectId_1": {
+      "type": "SecureString"
+    },
+    "replicationRecoveryServicesProviders_aaeecc20_53e2_5ad4_a2a8_ebf12634384e_audience_1": {
+      "type": "SecureString"
+    },
+    "replicationRecoveryServicesProviders_aaeecc20_53e2_5ad4_a2a8_ebf12634384e_aadAuthority_1": {
+      "type": "SecureString"
+    },
+    "vaults_vnet_recovery_vault_name": {
+      "defaultValue": "vnet-recovery-vault",
+      "type": "String"
+    }
+  },
+  "variables": {},
+  "resources": [
+    {
+      "type": "Microsoft.RecoveryServices/vaults",
+      "apiVersion": "2018-01-10",
+      "name": "[parameters('vaults_vnet_recovery_vault_name')]",
+      "location": "northeurope",
+      "sku": {
+        "name": "RS0",
+        "tier": "Standard"
+      },
+      "properties": {}
+    },
+    {
+      "type": "Microsoft.RecoveryServices/vaults/backupPolicies",
+      "apiVersion": "2016-12-01",
+      "name": "[concat(parameters('vaults_vnet_recovery_vault_name'), '/DefaultPolicy')]",
+      "dependsOn": [
+        "[resourceId('Microsoft.RecoveryServices/vaults', parameters('vaults_vnet_recovery_vault_name'))]"
+      ],
+      "properties": {
+        "backupManagementType": "AzureIaasVM",
+        "protectedItemsCount": 0
+      }
+    },
+    {
+      "type": "Microsoft.RecoveryServices/vaults/backupPolicies",
+      "apiVersion": "2016-12-01",
+      "name": "[concat(parameters('vaults_vnet_recovery_vault_name'), '/HourlyLogBackup')]",
+      "dependsOn": [
+        "[resourceId('Microsoft.RecoveryServices/vaults', parameters('vaults_vnet_recovery_vault_name'))]"
+      ],
+      "properties": {
+        "backupManagementType": "AzureWorkload",
+        "protectedItemsCount": 0
+      }
+    },
+    {
+      "type": "Microsoft.RecoveryServices/vaults/replicationAlertSettings",
+      "apiVersion": "2018-01-10",
+      "name": "[concat(parameters('vaults_vnet_recovery_vault_name'), '/defaultAlertSetting')]",
+      "dependsOn": [
+        "[resourceId('Microsoft.RecoveryServices/vaults', parameters('vaults_vnet_recovery_vault_name'))]"
+      ],
+      "properties": {
+        "sendToOwners": "DoNotSend",
+        "customEmailAddresses": []
+      }
+    },
+    {
+      "type": "Microsoft.RecoveryServices/vaults/replicationFabrics",
+      "apiVersion": "2018-01-10",
+      "name": "[concat(parameters('vaults_vnet_recovery_vault_name'), '/asr-a2a-default-centralus')]",
+      "dependsOn": [
+        "[resourceId('Microsoft.RecoveryServices/vaults', parameters('vaults_vnet_recovery_vault_name'))]"
+      ],
+      "properties": {
+        "customDetails": {
+          "instanceType": "Azure",
+          "location": "centralus"
+        }
+      }
+    },
+    {
+      "type": "Microsoft.RecoveryServices/vaults/replicationFabrics",
+      "apiVersion": "2018-01-10",
+      "name": "[concat(parameters('vaults_vnet_recovery_vault_name'), '/asr-a2a-default-eastus2')]",
+      "dependsOn": [
+        "[resourceId('Microsoft.RecoveryServices/vaults', parameters('vaults_vnet_recovery_vault_name'))]"
+      ],
+      "properties": {
+        "customDetails": {
+          "instanceType": "Azure",
+          "location": "eastus2"
+        }
+      }
+    },
+    {
+      "type": "Microsoft.RecoveryServices/vaults/replicationPolicies",
+      "apiVersion": "2018-01-10",
+      "name": "[concat(parameters('vaults_vnet_recovery_vault_name'), '/24-hour-retention-policy')]",
+      "dependsOn": [
+        "[resourceId('Microsoft.RecoveryServices/vaults', parameters('vaults_vnet_recovery_vault_name'))]"
+      ],
+      "properties": {}
+    },
+    {
+      "type": "Microsoft.RecoveryServices/vaults/replicationFabrics/replicationProtectionContainers",
+      "apiVersion": "2018-01-10",
+      "name": "[concat(parameters('vaults_vnet_recovery_vault_name'), '/asr-a2a-default-centralus/asr-a2a-default-centralus-container')]",
+      "dependsOn": [
+        "[resourceId('Microsoft.RecoveryServices/vaults/replicationFabrics', parameters('vaults_vnet_recovery_vault_name'), 'asr-a2a-default-centralus')]",
+        "[resourceId('Microsoft.RecoveryServices/vaults', parameters('vaults_vnet_recovery_vault_name'))]"
+      ],
+      "properties": {}
+    },
+    {
+      "type": "Microsoft.RecoveryServices/vaults/replicationFabrics/replicationProtectionContainers",
+      "apiVersion": "2018-01-10",
+      "name": "[concat(parameters('vaults_vnet_recovery_vault_name'), '/asr-a2a-default-eastus2/asr-a2a-default-eastus2-container')]",
+      "dependsOn": [
+        "[resourceId('Microsoft.RecoveryServices/vaults/replicationFabrics', parameters('vaults_vnet_recovery_vault_name'), 'asr-a2a-default-eastus2')]",
+        "[resourceId('Microsoft.RecoveryServices/vaults', parameters('vaults_vnet_recovery_vault_name'))]"
+      ],
+      "properties": {}
+    },
+    {
+      "type": "Microsoft.RecoveryServices/vaults/replicationFabrics/replicationRecoveryServicesProviders",
+      "apiVersion": "2018-01-10",
+      "name": "[concat(parameters('vaults_vnet_recovery_vault_name'), '/asr-a2a-default-eastus2/aaeecc20-53e2-5ad4-a2a8-ebf12634384e')]",
+      "dependsOn": [
+        "[resourceId('Microsoft.RecoveryServices/vaults/replicationFabrics', parameters('vaults_vnet_recovery_vault_name'), 'asr-a2a-default-eastus2')]",
+        "[resourceId('Microsoft.RecoveryServices/vaults', parameters('vaults_vnet_recovery_vault_name'))]"
+      ],
+      "properties": {
+        "machineName": "[parameters('replicationRecoveryServicesProviders_aaeecc20_53e2_5ad4_a2a8_ebf12634384e_machineName')]",
+        "authenticationIdentityInput": {
+          "tenantId": "[parameters('replicationRecoveryServicesProviders_aaeecc20_53e2_5ad4_a2a8_ebf12634384e_tenantId')]",
+          "applicationId": "[parameters('replicationRecoveryServicesProviders_aaeecc20_53e2_5ad4_a2a8_ebf12634384e_applicationId')]",
+          "objectId": "[parameters('replicationRecoveryServicesProviders_aaeecc20_53e2_5ad4_a2a8_ebf12634384e_objectId')]",
+          "audience": "[parameters('replicationRecoveryServicesProviders_aaeecc20_53e2_5ad4_a2a8_ebf12634384e_audience')]",
+          "aadAuthority": "[parameters('replicationRecoveryServicesProviders_aaeecc20_53e2_5ad4_a2a8_ebf12634384e_aadAuthority')]"
+        },
+        "resourceAccessIdentityInput": {
+          "tenantId": "[parameters('replicationRecoveryServicesProviders_aaeecc20_53e2_5ad4_a2a8_ebf12634384e_tenantId_1')]",
+          "applicationId": "[parameters('replicationRecoveryServicesProviders_aaeecc20_53e2_5ad4_a2a8_ebf12634384e_applicationId_1')]",
+          "objectId": "[parameters('replicationRecoveryServicesProviders_aaeecc20_53e2_5ad4_a2a8_ebf12634384e_objectId_1')]",
+          "audience": "[parameters('replicationRecoveryServicesProviders_aaeecc20_53e2_5ad4_a2a8_ebf12634384e_audience_1')]",
+          "aadAuthority": "[parameters('replicationRecoveryServicesProviders_aaeecc20_53e2_5ad4_a2a8_ebf12634384e_aadAuthority_1')]"
+        }
+      }
+    },
+    {
+      "type": "Microsoft.RecoveryServices/vaults/replicationFabrics/replicationRecoveryServicesProviders",
+      "apiVersion": "2018-01-10",
+      "name": "[concat(parameters('vaults_vnet_recovery_vault_name'), '/asr-a2a-default-centralus/f21e4c79-173f-5ffe-808c-acb31162e863')]",
+      "dependsOn": [
+        "[resourceId('Microsoft.RecoveryServices/vaults/replicationFabrics', parameters('vaults_vnet_recovery_vault_name'), 'asr-a2a-default-centralus')]",
+        "[resourceId('Microsoft.RecoveryServices/vaults', parameters('vaults_vnet_recovery_vault_name'))]"
+      ],
+      "properties": {
+        "machineName": "[parameters('replicationRecoveryServicesProviders_f21e4c79_173f_5ffe_808c_acb31162e863_machineName')]",
+        "authenticationIdentityInput": {
+          "tenantId": "[parameters('replicationRecoveryServicesProviders_f21e4c79_173f_5ffe_808c_acb31162e863_tenantId')]",
+          "applicationId": "[parameters('replicationRecoveryServicesProviders_f21e4c79_173f_5ffe_808c_acb31162e863_applicationId')]",
+          "objectId": "[parameters('replicationRecoveryServicesProviders_f21e4c79_173f_5ffe_808c_acb31162e863_objectId')]",
+          "audience": "[parameters('replicationRecoveryServicesProviders_f21e4c79_173f_5ffe_808c_acb31162e863_audience')]",
+          "aadAuthority": "[parameters('replicationRecoveryServicesProviders_f21e4c79_173f_5ffe_808c_acb31162e863_aadAuthority')]"
+        },
+        "resourceAccessIdentityInput": {
+          "tenantId": "[parameters('replicationRecoveryServicesProviders_f21e4c79_173f_5ffe_808c_acb31162e863_tenantId_1')]",
+          "applicationId": "[parameters('replicationRecoveryServicesProviders_f21e4c79_173f_5ffe_808c_acb31162e863_applicationId_1')]",
+          "objectId": "[parameters('replicationRecoveryServicesProviders_f21e4c79_173f_5ffe_808c_acb31162e863_objectId_1')]",
+          "audience": "[parameters('replicationRecoveryServicesProviders_f21e4c79_173f_5ffe_808c_acb31162e863_audience_1')]",
+          "aadAuthority": "[parameters('replicationRecoveryServicesProviders_f21e4c79_173f_5ffe_808c_acb31162e863_aadAuthority_1')]"
+        }
+      }
+    },
+    {
+      "type": "Microsoft.RecoveryServices/vaults/replicationFabrics/replicationProtectionContainers/replicationProtectionContainerMappings",
+      "apiVersion": "2018-01-10",
+      "name": "[concat(parameters('vaults_vnet_recovery_vault_name'), '/asr-a2a-default-centralus/asr-a2a-default-centralus-container/centralus-eastus2-24-hour-retention-policy')]",
+      "dependsOn": [
+        "[resourceId('Microsoft.RecoveryServices/vaults/replicationFabrics/replicationProtectionContainers', parameters('vaults_vnet_recovery_vault_name'), 'asr-a2a-default-centralus', 'asr-a2a-default-centralus-container')]",
+        "[resourceId('Microsoft.RecoveryServices/vaults/replicationFabrics', parameters('vaults_vnet_recovery_vault_name'), 'asr-a2a-default-centralus')]",
+        "[resourceId('Microsoft.RecoveryServices/vaults', parameters('vaults_vnet_recovery_vault_name'))]",
+        "[resourceId('Microsoft.RecoveryServices/vaults/replicationFabrics/replicationProtectionContainers', parameters('vaults_vnet_recovery_vault_name'), 'asr-a2a-default-eastus2', 'asr-a2a-default-eastus2-container')]",
+        "[resourceId('Microsoft.RecoveryServices/vaults/replicationPolicies', parameters('vaults_vnet_recovery_vault_name'), '24-hour-retention-policy')]"
+      ],
+      "properties": {
+        "targetProtectionContainerId": "[resourceId('Microsoft.RecoveryServices/vaults/replicationFabrics/replicationProtectionContainers', parameters('vaults_vnet_recovery_vault_name'), 'asr-a2a-default-eastus2', 'asr-a2a-default-eastus2-container')]",
+        "policyId": "[resourceId('Microsoft.RecoveryServices/vaults/replicationPolicies', parameters('vaults_vnet_recovery_vault_name'), '24-hour-retention-policy')]"
+      }
+    },
+    {
+      "type": "Microsoft.RecoveryServices/vaults/replicationFabrics/replicationProtectionContainers/replicationProtectionContainerMappings",
+      "apiVersion": "2018-01-10",
+      "name": "[concat(parameters('vaults_vnet_recovery_vault_name'), '/asr-a2a-default-eastus2/asr-a2a-default-eastus2-container/eastus2-centralus-24-hour-retention-policy')]",
+      "dependsOn": [
+        "[resourceId('Microsoft.RecoveryServices/vaults/replicationFabrics/replicationProtectionContainers', parameters('vaults_vnet_recovery_vault_name'), 'asr-a2a-default-eastus2', 'asr-a2a-default-eastus2-container')]",
+        "[resourceId('Microsoft.RecoveryServices/vaults/replicationFabrics', parameters('vaults_vnet_recovery_vault_name'), 'asr-a2a-default-eastus2')]",
+        "[resourceId('Microsoft.RecoveryServices/vaults', parameters('vaults_vnet_recovery_vault_name'))]",
+        "[resourceId('Microsoft.RecoveryServices/vaults/replicationFabrics/replicationProtectionContainers', parameters('vaults_vnet_recovery_vault_name'), 'asr-a2a-default-centralus', 'asr-a2a-default-centralus-container')]",
+        "[resourceId('Microsoft.RecoveryServices/vaults/replicationPolicies', parameters('vaults_vnet_recovery_vault_name'), '24-hour-retention-policy')]"
+      ],
+      "properties": {
+        "targetProtectionContainerId": "[resourceId('Microsoft.RecoveryServices/vaults/replicationFabrics/replicationProtectionContainers', parameters('vaults_vnet_recovery_vault_name'), 'asr-a2a-default-centralus', 'asr-a2a-default-centralus-container')]",
+        "policyId": "[resourceId('Microsoft.RecoveryServices/vaults/replicationPolicies', parameters('vaults_vnet_recovery_vault_name'), '24-hour-retention-policy')]"
+      }
+    }
+  ]
+}
